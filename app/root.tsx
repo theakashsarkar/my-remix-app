@@ -1,33 +1,49 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
-import {
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+import { Outlet,LiveReload, Link } from '@remix-run/react'
 
-export default function App() {
+export default function () {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
+   <Document>
+      <Layout>
         <Outlet />
-        <ScrollRestoration />
-        <Scripts />
+      </Layout>
+   </Document>
+  );
+}
+
+function Document({ children, title }) {
+    return (
+    <html lang='en'>
+      <head>
+        <title>{title ? title : "My Remix Blog"}</title>
+      </head>
+        <body>
+          <h1>hello world</h1>
+        {children}
         <LiveReload />
       </body>
     </html>
-  );
+    )
+}
+
+function Layout({children}) {
+  return (
+    <>
+      <nav className='navbar'>
+        <Link to="/" className=''>
+          Remix 
+        </Link>
+        <ul className='nav'>
+          <li>
+            <Link to="/">
+              Posts 
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <div className=''>
+        {children}
+      </div>
+    </>
+  )
 }
