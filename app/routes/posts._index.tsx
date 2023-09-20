@@ -1,12 +1,10 @@
 import { Link, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node"
-
-import { db } from "~/utils/db.server";
+import { findMany } from "~/models/post.server";
 
 export const loader = async () => {
-    return json({
-        posts : await db.post.findMany(),
-    })
+    const posts = await findMany()
+    return json({ posts })
 }
 export default function PostItems() {
     const data = useLoaderData<typeof loader>();
